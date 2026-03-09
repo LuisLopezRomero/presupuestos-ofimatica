@@ -144,7 +144,6 @@ const Dashboard = ({ session }) => {
                 <section className="quotes-list-section">
                     <div className="section-header">
                         <h2>Recientes</h2>
-                        <button className="text-btn">Ver todos</button>
                     </div>
                     <div className="quotes-table-container">
                         <table className="quotes-table">
