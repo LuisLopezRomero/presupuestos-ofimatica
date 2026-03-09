@@ -9,8 +9,38 @@
     display: grid;
     grid-template-columns: 450px 1fr;
     flex: 1;
-    height: calc(100vh - 70px); /* Resto del viewport menos el header */
+    height: calc(100vh - 70px);
     overflow: hidden;
+}
+
+.generator-header {
+    background: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    z-index: 10;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    border: none;
+    color: #666;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #f1f5f9;
+    color: var(--secondary-color);
 }
 
 .generator-form-panel {
