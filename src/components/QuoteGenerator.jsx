@@ -141,7 +141,9 @@ const QuoteGenerator = ({ onBack, editData, session }) => {
                 status: 'Sent',
                 delivery_time: budgetData.deliveryTime,
                 payment_terms: budgetData.paymentTerms,
-                validity: budgetData.validity
+                validity: budgetData.validity,
+                user_id: session?.user?.id,
+                user_email: session?.user?.email
             };
 
             let quoteId = budgetData.id;
