@@ -26,11 +26,13 @@
     border: none;
     outline: none;
     width: 100%;
-    font-size: 0.9rem;.dashboard-logo img {
+    font-size: 0.9rem;
+}
+
+.dashboard-logo img {
     height: 32px;
     width: auto;
     margin-right: 20px;
-}
 }
 
 .user-profile {
