@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Plus, LayoutDashboard, FileText, Download, Trash2, Edit3, Settings, HelpCircle, User, Search, Filter, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabaseClient';
