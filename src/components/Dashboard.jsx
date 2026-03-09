@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, LayoutDashboard, FileText, Download, Trash2, Edit3, Settings, HelpCircle, User, Search, Filter, LogOut } from 'lucide-react';
+import { Plus, LayoutDashboard, FileText, Download, Trash2, Edit3, Settings, HelpCircle, User, Search, Filter, LogOut, Share2, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabaseClient';
 import QuoteGenerator from './QuoteGenerator';
@@ -97,6 +97,12 @@ const Dashboard = ({ session }) => {
         />;
     }
 
+    const handleShare = (id) => {
+        const url = `${window.location.origin}${window.location.pathname}?view=quote&id=${id}`;
+        navigator.clipboard.writeText(url);
+        alert("Enlace copiado al portapapeles. ¡Envíalo a tu cliente!");
+    };
+
     return (
         <div className="dashboard-container">
             <header className="dashboard-header">
@@ -177,6 +183,7 @@ const Dashboard = ({ session }) => {
                                         </td>
                                         <td className="text-right actions-cell">
                                             <button className="icon-btn" title="Editar" onClick={() => handleEdit(quote)}><Edit3 size={16} /></button>
+                                            <button className="icon-btn" title="Compartir Enlace" onClick={() => handleShare(quote.id)}><Share2 size={16} /></button>
                                             <button className="icon-btn" title="Descargar PDF"><Download size={16} /></button>
                                             <button className="icon-btn delete" title="Eliminar" onClick={() => handleDelete(quote.id)}><Trash2 size={16} /></button>
                                         </td>
