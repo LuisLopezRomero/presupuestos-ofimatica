@@ -3,6 +3,7 @@ import { Plus, LayoutDashboard, FileText, Download, Trash2, Edit3, Settings, Hel
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../supabaseClient';
 import QuoteGenerator from './QuoteGenerator';
+import logo from '../assets/logo.png';
 import './Dashboard.css';
 
 const Dashboard = ({ session }) => {
@@ -99,6 +100,9 @@ const Dashboard = ({ session }) => {
     return (
         <div className="dashboard-container">
             <header className="dashboard-header">
+                <div className="dashboard-logo">
+                    <img src={logo} alt="Ofimática Digital" />
+                </div>
                 <div className="search-bar">
                     <Search size={18} />
                     <input type="text" placeholder="Buscar presupuestos..." />

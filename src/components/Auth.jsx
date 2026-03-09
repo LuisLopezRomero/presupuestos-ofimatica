@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
 import { Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
+import logo from '../assets/logo.png';
 import './Auth.css';
 
 const Auth = () => {
@@ -42,14 +43,7 @@ const Auth = () => {
             <div className="auth-card">
                 <div className="auth-header">
                     <div className="auth-logo">
-                        <img 
-                            src="https://ofimaticadigital.es/wp-content/uploads/2021/07/logo-ofimatica-digital-v5.png" 
-                            alt="Ofimática Digital" 
-                            onError={(e) => {
-                                e.target.onerror = null; 
-                                e.target.src = "https://ui-avatars.com/api/?name=Ofimatica+Digital&background=0087c1&color=fff&size=128";
-                            }}
-                        />
+                        <img src={logo} alt="Ofimática Digital" />
                     </div>
                     <h1>{mode === 'login' ? 'Bienvenido de nuevo' : 'Crea una cuenta'}</h1>
                     <p>{mode === 'login' ? 'Accede al generador de presupuestos' : 'Regístrate para empezar a crear'}</p>
