@@ -8,8 +8,8 @@ import { supabase } from '../supabaseClient';
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-const QuoteGenerator = ({ onBack }) => {
-    const [budgetData, setBudgetData] = useState({
+const QuoteGenerator = ({ onBack, editData }) => {
+    const [budgetData, setBudgetData] = useState(editData || {
         clientName: '',
         clientAddress: '',
         clientCIF: '',
@@ -130,29 +130,50 @@ const QuoteGenerator = ({ onBack }) => {
         setIsSaving(true);
         try {
             const total = budgetData.items.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const { data: quote, error: quoteError } = await supabase
-                .from('quotes')
-                .insert([{
-                    client_name: budgetData.clientName || 'Cliente sin nombre',
-                    client_cif: budgetData.clientCIF,
-                    client_address: budgetData.clientAddress,
-                    reference: budgetData.reference,
-                    margin: parseFloat(budgetData.margin),
-                    total_amount: total,
-                    status: 'Sent',
-                    delivery_time: budgetData.deliveryTime,
-                    payment_terms: budgetData.paymentTerms,
-                    validity: budgetData.validity
-                }])
-                .select()
-                .single();
+            const quoteData = {
+                client_name: budgetData.clientName || 'Cliente sin nombre',
+                client_cif: budgetData.clientCIF,
+                client_address: budgetData.clientAddress,
+                reference: budgetData.reference,
+                margin: parseFloat(budgetData.margin),
+                total_amount: total,
+                status: 'Sent',
+                delivery_time: budgetData.deliveryTime,
+                payment_terms: budgetData.paymentTerms,
+                validity: budgetData.validity
+            };
 
-            if (quoteError) throw quoteError;
+            let quoteId = budgetData.id;
+
+            if (quoteId) {
+                // Actualizar presupuesto existente
+                const { error: updateError } = await supabase
+                    .from('quotes')
+                    .update(quoteData)
+                    .eq('id', quoteId);
+                if (updateError) throw updateError;
+
+                // Borrar items anteriores para re-insertar los nuevos
+                const { error: deleteItemsError } = await supabase
+                    .from('quote_items')
+                    .delete()
+                    .eq('quote_id', quoteId);
+                if (deleteItemsError) throw deleteItemsError;
+            } else {
+                // Insertar nuevo presupuesto
+                const { data: quote, error: quoteError } = await supabase
+                    .from('quotes')
+                    .insert([quoteData])
+                    .select()
+                    .single();
+                if (quoteError) throw quoteError;
+                quoteId = quote.id;
+            }
 
             const itemsToInsert = budgetData.items
                 .filter(item => item.description.trim() !== '')
                 .map(item => ({
-                    quote_id: quote.id,
+                    quote_id: quoteId,
                     reference: item.ref,
                     description: item.description,
                     quantity: item.qty,

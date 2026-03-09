@@ -9,37 +9,91 @@ const Dashboard = ({ session }) => {
     const [view, setView] = useState('dashboard');
     const [quotes, setQuotes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [editQuoteData, setEditQuoteData] = useState(null);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
     };
 
-    useEffect(() => {
-        const fetchQuotes = async () => {
-            const { data, error } = await supabase
-                .from('quotes')
-                .select('*')
-                .order('created_at', { ascending: false });
-            
-            if (!error) {
-                setQuotes(data);
-            }
-            setLoading(false);
-        };
+    const fetchQuotes = async () => {
+        setLoading(true);
+        const { data, error } = await supabase
+            .from('quotes')
+            .select('*')
+            .order('created_at', { ascending: false });
+        
+        if (!error) {
+            setQuotes(data);
+        }
+        setLoading(false);
+    };
 
+    useEffect(() => {
         if (session) {
             fetchQuotes();
         }
     }, [session]);
 
-    const stats = [
-        { label: 'Presupuestos Totales', value: '12', icon: <FileText size={20} /> },
-        { label: 'Pendientes', value: '4', icon: <Edit3 size={20} /> },
-        { label: 'Enviados', value: '8', icon: <Download size={20} /> }
-    ];
+    const handleDelete = async (id) => {
+        if (confirm('¿Estás seguro de que quieres eliminar este presupuesto?')) {
+            // Eliminar items primero (o dejar que cascade borre si está configurado)
+            const { error: itemsError } = await supabase.from('quote_items').delete().eq('quote_id', id);
+            if (itemsError) {
+                console.error("Error al borrar items:", itemsError);
+            }
+
+            const { error } = await supabase.from('quotes').delete().eq('id', id);
+            if (error) {
+                alert("Error al eliminar el presupuesto");
+            } else {
+                fetchQuotes();
+            }
+        }
+    };
+
+    const handleEdit = async (quote) => {
+        // Cargar los items del presupuesto
+        const { data: items, error } = await supabase
+            .from('quote_items')
+            .select('*')
+            .eq('quote_id', quote.id);
+        
+        if (error) {
+            alert("Error al cargar los artículos del presupuesto");
+            return;
+        }
+
+        setEditQuoteData({
+            id: quote.id,
+            clientName: quote.client_name,
+            clientCIF: quote.client_cif,
+            clientAddress: quote.client_address,
+            reference: quote.reference,
+            margin: quote.margin,
+            deliveryTime: quote.delivery_time,
+            paymentTerms: quote.payment_terms,
+            validity: quote.validity,
+            items: items.map(item => ({
+                id: item.id,
+                ref: item.reference,
+                description: item.description,
+                qty: item.quantity,
+                costPrice: item.cost_price,
+                price: item.final_price
+            }))
+        });
+        setView('new-quote');
+    };
 
     if (view === 'new-quote') {
-        return <QuoteGenerator onBack={() => setView('dashboard')} />;
+        return <QuoteGenerator 
+            onBack={() => {
+                setView('dashboard');
+                setEditQuoteData(null);
+                fetchQuotes();
+            }} 
+            editData={editQuoteData}
+        />;
     }
 
     return (
@@ -119,9 +173,9 @@ const Dashboard = ({ session }) => {
                                             </span>
                                         </td>
                                         <td className="text-right actions-cell">
-                                            <button className="icon-btn" title="Editar"><Edit3 size={16} /></button>
+                                            <button className="icon-btn" title="Editar" onClick={() => handleEdit(quote)}><Edit3 size={16} /></button>
                                             <button className="icon-btn" title="Descargar PDF"><Download size={16} /></button>
-                                            <button className="icon-btn delete" title="Eliminar"><Trash2 size={16} /></button>
+                                            <button className="icon-btn delete" title="Eliminar" onClick={() => handleDelete(quote.id)}><Trash2 size={16} /></button>
                                         </td>
                                     </tr>
                                 ))}
