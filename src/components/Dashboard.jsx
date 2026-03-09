@@ -94,6 +94,7 @@ const Dashboard = ({ session }) => {
                 fetchQuotes();
             }} 
             editData={editQuoteData}
+            session={session}
         />;
     }
 

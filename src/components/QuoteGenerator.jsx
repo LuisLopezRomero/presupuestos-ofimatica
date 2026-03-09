@@ -8,7 +8,8 @@ import { supabase } from '../supabaseClient';
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
-const QuoteGenerator = ({ onBack, editData }) => {
+const QuoteGenerator = ({ onBack, editData, session }) => {
+    // ... rest of component
     const [budgetData, setBudgetData] = useState(editData || {
         clientName: '',
         clientAddress: '',
