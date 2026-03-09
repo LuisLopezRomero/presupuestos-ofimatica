@@ -1,0 +1,125 @@
+.preview-document {
+    background: white;
+    width: 210mm; /* A4 width placeholder */
+    min-height: 297mm;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    color: #333;
+    font-family: 'Inter', sans-serif;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 20px;
+}
+
+.logo-section img {
+    max-height: 70px;
+}
+
+.company-info-text h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.company-info-text p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.preview-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.preview-meta h4 {
+    margin: 0 0 10px 0;
+    color: #4a4a49;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.preview-meta p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+}
+
+.preview-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.preview-table th {
+    background: var(--primary-color);
+    color: white;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 0.85rem;
+}
+
+.preview-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    vertical-align: top;
+}
+
+
+.preview-totals {
+    width: 280px;
+    margin-left: auto;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.9rem;
+}
+
+.main-total {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    border-top: 2px solid var(--primary-color);
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.preview-footer {
+    margin-top: 80px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.conditions-section h5 {
+    margin: 0 0 10px 0;
+    color: #444;
+}
+
+.conditions-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.legal-text {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #999;
+}
+
+
+

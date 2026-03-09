@@ -1,0 +1,75 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-header {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.logo h1 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+  color: var(--secondary-color);
+}
+
+nav li:hover {
+  color: var(--primary-color);
+}
+
+.item-main input:focus {
+    border-color: var(--primary-color);
+}
+
+@media print {
+  /* Ocultar la interfaz web, pero NO el contenido del presupuesto */
+  .generator-header, aside, .preview-toolbar, .back-btn, .header-actions, .main-header {
+    display: none !important;
+  }
+
+  /* Reset layout para que la vista previa ocupe todo */
+  .app-container, .generator-container, .generator-layout, .generator-preview-panel, .preview-canvas {
+    display: block !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+
+  .preview-document {
+    width: 190mm !important; /* Ajuste para márgenes de impresora */
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Forzar colores de fondo y logo */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
